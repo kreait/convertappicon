@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/kreait/Documents/ME"
+            argument = "/Users/kreait/Projekt/ME"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

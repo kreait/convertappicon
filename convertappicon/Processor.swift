@@ -32,16 +32,15 @@ struct Processor {
         let size = CGFloat(config.size * Float(config.scale))
         let rect = NSRect(x: 0, y: 0, width: size, height: size)
 
-        guard let rep = self.sourceImage.bestRepresentation(for: rect, context: nil, hints: nil) else { return false }
-
-        let target = NSImage(size: rect.size)
-        target.lockFocus()
-        rep.draw(in: rect)
-        target.unlockFocus()
-
-        guard let targetData = target.tiffRepresentation,
-            let targetRep = NSBitmapImageRep(data: targetData),
-            let pngData = targetRep.representation(using: .png, properties: [:]) else { return false }
+        // create non-retina image rep, uh
+        guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size), pixelsHigh: Int(size), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSColorSpaceName.calibratedRGB, bytesPerRow: 0, bitsPerPixel: 0) else { return false }
+        rep.size = NSSize(width: size, height: size)
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+        sourceImage.draw(in: rect, from: NSRect(x: 0, y: 0, width: sourceImage.size.width, height: sourceImage.size.height), operation: .copy, fraction: 1)
+        NSGraphicsContext.restoreGraphicsState()
+        
+        guard let pngData = rep.representation(using: .png, properties: [:]) else { return false }
 
         let name = "\(self.iconPath)/\(config.iconName)"
         do {
