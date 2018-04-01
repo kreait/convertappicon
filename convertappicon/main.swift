@@ -10,45 +10,69 @@ import Foundation
 
 
 if 2 > CommandLine.argc {
-    Helper().output(.short)
+    Helper.output(verbose: false)
     exit(-1)
 }
 
 let options = CommandLine.arguments[1..<Int(CommandLine.argc)-1]
 
 if options.contains("-h") {
-    Helper().output(.long)
+    Helper.output(verbose: true)
     exit (0)
 }
 
 let prj = Project(path: CommandLine.arguments.last!)
 
 guard let appIconPath = prj.findAppIconPath() else {
-    print ("could not find app icon path")
+    print ("Could not find app icons path.")
     exit(-1)
 }
 
 guard let pdfPath = prj.findPdfPath(from: appIconPath) else {
-    print ("could not find pdf path")
+    print ("Could not find pdf path.")
     exit(-1)
 }
 
-if options.contains("-c") {
+if options.contains("-t") {
+    print("app icons path: \(appIconPath)")
+    print("pdf path: \(pdfPath)")
+}
+else if options.contains("-c") {
     prj.cleanTarget(appIconPath: appIconPath)
 }
 
 guard let process = Processor(iconPath: appIconPath, pdfPath: pdfPath) else {
-    print ("PDF cannot be opened")
+    print ("The pdf cannot be opened")
     exit(-1)
 }
 
-var results = [Config]()
-configurations.forEach {
-    if process.convert(to: $0) {
-        results.append($0)
+var configs = Configuration.list
+if options.contains("-s") {
+    configs = []
+    if options.contains("iphone") {
+        configs.append(contentsOf: Configuration.list.filter {$0.idiom == .phone} )
+    }
+    if options.contains("ipad") {
+        configs.append(contentsOf: Configuration.list.filter {$0.idiom == .pad} )
+    }
+    if options.contains("marketing") {
+        configs.append(contentsOf: Configuration.list.filter {$0.idiom == .marketing} )
+    }
+    if configs.isEmpty {
+        print("Warning: -s given but no category found.")
+    }
+}
+
+var resultConfigs = [Config]()
+configs.forEach {
+    if options.contains("-t") {
+        print ("'\($0.iconName)'")
+    }
+    else if process.convert(to: $0) {
+        resultConfigs.append($0)
         print ("'\($0.iconName)' created")
     }
 }
-if process.writeConfiguration(configurations: results) {
+if !options.contains("-t") && process.writeConfiguration(configurations: resultConfigs) {
     print ("'Contents.json' created")
 }

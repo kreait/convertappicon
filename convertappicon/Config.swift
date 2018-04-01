@@ -10,18 +10,18 @@ import Foundation
 
 
 enum Idiom: String, Encodable {
-
+    
     case phone = "iphone"
     case pad = "ipad"
     case marketing = "ios-marketing"
 }
 
 struct Config: Encodable {
-
+    
     let size: Float
     let idiom: Idiom
     let scale: Int
-
+    
     var iconName: String {
         return "Icon-\(Int(size * Float(scale))).png"
     }
@@ -32,7 +32,7 @@ struct Config: Encodable {
         case scale
         case filename
     }
-
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if Int(size) == Int(size.rounded()) {   // uh
@@ -47,21 +47,24 @@ struct Config: Encodable {
     }
 }
 
-let configurations = [Config(size: 20, idiom: .phone, scale: 2),
-                      Config(size: 20, idiom: .phone, scale: 3),
-                      Config(size: 29, idiom: .phone, scale: 2),
-                      Config(size: 29, idiom: .phone, scale: 3),
-                      Config(size: 40, idiom: .phone, scale: 2),
-                      Config(size: 40, idiom: .phone, scale: 3),
-                      Config(size: 60, idiom: .phone, scale: 2),
-                      Config(size: 60, idiom: .phone, scale: 3),
-                      Config(size: 20, idiom: .pad, scale: 1),
-                      Config(size: 20, idiom: .pad, scale: 2),
-                      Config(size: 29, idiom: .pad, scale: 1),
-                      Config(size: 29, idiom: .pad, scale: 2),
-                      Config(size: 40, idiom: .pad, scale: 1),
-                      Config(size: 40, idiom: .pad, scale: 2),
-                      Config(size: 76, idiom: .pad, scale: 1),
-                      Config(size: 76, idiom: .pad, scale: 2),
-                      Config(size: 83.5, idiom: .pad, scale: 2),
-                      Config(size: 1024, idiom: .marketing, scale: 1)]
+struct Configuration {
+    
+    static let list = [Config(size: 20, idiom: .phone, scale: 2),
+                       Config(size: 20, idiom: .phone, scale: 3),
+                       Config(size: 29, idiom: .phone, scale: 2),
+                       Config(size: 29, idiom: .phone, scale: 3),
+                       Config(size: 40, idiom: .phone, scale: 2),
+                       Config(size: 40, idiom: .phone, scale: 3),
+                       Config(size: 60, idiom: .phone, scale: 2),
+                       Config(size: 60, idiom: .phone, scale: 3),
+                       Config(size: 20, idiom: .pad, scale: 1),
+                       Config(size: 20, idiom: .pad, scale: 2),
+                       Config(size: 29, idiom: .pad, scale: 1),
+                       Config(size: 29, idiom: .pad, scale: 2),
+                       Config(size: 40, idiom: .pad, scale: 1),
+                       Config(size: 40, idiom: .pad, scale: 2),
+                       Config(size: 76, idiom: .pad, scale: 1),
+                       Config(size: 76, idiom: .pad, scale: 2),
+                       Config(size: 83.5, idiom: .pad, scale: 2),
+                       Config(size: 1024, idiom: .marketing, scale: 1)]
+}
