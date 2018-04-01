@@ -18,16 +18,13 @@ class Project {
     }
 
     private func find(name: String, basepath: String) -> String? {
+        guard !basepath.contains(name) else { return basepath }
         do {
             let list = try FileManager.default.contentsOfDirectory(atPath: basepath)
-            if let hit = list.first(where: { $0.contains(name) } ) {
-                let result = "\(basepath)/\(hit)"
-                return result
-            }
-            else {
-                let results = list.filter({ $0.prefix(1) != "." }).compactMap { find(name: name, basepath: "\(basepath)/\($0)")}
-                return results.first
-            }
+            let filteredResults = list.filter({ $0.prefix(1) != "." }).compactMap { find(name: name, basepath: "\(basepath)/\($0)") }
+            guard let result = filteredResults.first else { return nil }
+            guard FileManager.default.fileExists(atPath: result) else { return nil }
+            return result
         }
         catch {
 //            print(error)

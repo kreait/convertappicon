@@ -31,11 +31,13 @@ guard let process = Processor(iconPath: appIconPath, pdfPath: pdfPath) else {
     exit(-1)
 }
 
+var results = [Config]()
 configurations.forEach {
     if process.convert(to: $0) {
+        results.append($0)
         print ("'\($0.iconName)' created")
     }
 }
-if process.writeConfiguration(configurations: configurations) {
+if process.writeConfiguration(configurations: results) {
     print ("'Contents.json' created")
 }
