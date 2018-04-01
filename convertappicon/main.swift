@@ -9,9 +9,16 @@
 import Foundation
 
 
-if 2 != CommandLine.argc {
-    print ("convert SRCROOT")
+if 2 > CommandLine.argc {
+    Helper().output(.short)
     exit(-1)
+}
+
+let options = CommandLine.arguments[1..<Int(CommandLine.argc)-1]
+
+if options.contains("-h") {
+    Helper().output(.long)
+    exit (0)
 }
 
 let prj = Project(path: CommandLine.arguments.last!)
@@ -24,6 +31,10 @@ guard let appIconPath = prj.findAppIconPath() else {
 guard let pdfPath = prj.findPdfPath(from: appIconPath) else {
     print ("could not find pdf path")
     exit(-1)
+}
+
+if options.contains("-c") {
+    prj.cleanTarget(appIconPath: appIconPath)
 }
 
 guard let process = Processor(iconPath: appIconPath, pdfPath: pdfPath) else {

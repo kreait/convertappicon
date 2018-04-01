@@ -21,8 +21,9 @@ class Project {
         guard !basepath.contains(name) else { return basepath }
         do {
             let list = try FileManager.default.contentsOfDirectory(atPath: basepath)
-            let filteredResults = list.filter({ $0.prefix(1) != "." }).compactMap { find(name: name, basepath: "\(basepath)/\($0)") }
-            guard let result = filteredResults.first else { return nil }
+            let results = list.filter({ $0.prefix(1) != "." })
+                            .compactMap { find(name: name, basepath: "\(basepath)/\($0)") }
+            guard let result = results.first else { return nil }
             guard FileManager.default.fileExists(atPath: result) else { return nil }
             return result
         }
@@ -44,4 +45,16 @@ class Project {
         let resultPath = "\(head.joined(separator: "/"))/\(name)Pdf.imageset"
         return find(name: ".pdf", basepath: resultPath)
     }
+
+    func cleanTarget(appIconPath: String) {
+        do {
+            let list = try FileManager.default.contentsOfDirectory(atPath: appIconPath)
+            try list.filter({ $0.prefix(1) != "." })
+                    .forEach { try FileManager.default.removeItem(atPath: "\(appIconPath)/\($0)") }
+        }
+        catch {
+            //            print(error)
+        }
+    }
+
 }
