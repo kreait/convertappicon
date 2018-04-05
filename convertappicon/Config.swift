@@ -14,6 +14,16 @@ enum Idiom: String, Encodable {
     case phone = "iphone"
     case pad = "ipad"
     case marketing = "ios-marketing"
+    case watch = "watch"
+}
+
+enum Role: String, Encodable {
+    
+    case notificationCenter
+    case companionSettings
+    case appLauncher
+    case longLook
+    case quickLook
 }
 
 struct Config: Encodable {
@@ -21,15 +31,27 @@ struct Config: Encodable {
     let size: Float
     let idiom: Idiom
     let scale: Int
-    
+    let role: Role?
+    let subtype: String?
+
+    init(size: Float, idiom: Idiom, scale: Int, role: Role? = nil, subtype: String? = nil) {
+        self.size = size
+        self.idiom = idiom
+        self.scale = scale
+        self.role = role
+        self.subtype = subtype
+    }
+
     var iconName: String {
         return "Icon-\(Int(size * Float(scale))).png"
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case size
         case idiom
         case scale
+        case role
+        case subtype
         case filename
     }
     
@@ -44,6 +66,12 @@ struct Config: Encodable {
         try container.encode(idiom, forKey: .idiom)
         try container.encode("\(scale)x", forKey: .scale)
         try container.encode(iconName, forKey: .filename)
+        if let role = role {
+            try container.encode(role, forKey: .role)
+        }
+        if let subtype = subtype {
+            try container.encode(subtype, forKey: .subtype)
+        }
     }
 }
 
@@ -57,6 +85,7 @@ struct Configuration {
                        Config(size: 40, idiom: .phone, scale: 3),
                        Config(size: 60, idiom: .phone, scale: 2),
                        Config(size: 60, idiom: .phone, scale: 3),
+                       
                        Config(size: 20, idiom: .pad, scale: 1),
                        Config(size: 20, idiom: .pad, scale: 2),
                        Config(size: 29, idiom: .pad, scale: 1),
@@ -66,5 +95,15 @@ struct Configuration {
                        Config(size: 76, idiom: .pad, scale: 1),
                        Config(size: 76, idiom: .pad, scale: 2),
                        Config(size: 83.5, idiom: .pad, scale: 2),
+
+                       Config(size: 24, idiom: .watch, scale: 2, role: .notificationCenter, subtype: "38mm"),
+                       Config(size: 27.5, idiom: .watch, scale: 2, role: .notificationCenter, subtype: "42mm"),
+                       Config(size: 29, idiom: .watch, scale: 2, role: .companionSettings),
+                       Config(size: 29, idiom: .watch, scale: 3, role: .companionSettings),
+                       Config(size: 40, idiom: .watch, scale: 2, role: .appLauncher, subtype: "38mm"),
+                       Config(size: 44, idiom: .watch, scale: 2, role: .longLook, subtype: "42mm"),
+                       Config(size: 86, idiom: .watch, scale: 2, role: .quickLook, subtype: "38mm"),
+                       Config(size: 98, idiom: .watch, scale: 2, role: .quickLook, subtype: "42mm"),
+
                        Config(size: 1024, idiom: .marketing, scale: 1)]
 }

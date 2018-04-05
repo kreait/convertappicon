@@ -1,6 +1,6 @@
 # convertappicon
 
-**convertappicon** converts a pdf into multiple app icons. It is a macOS tool written in Swift and currently supports generating iOS icons. The easiest way is to execute it from a project target script phase inside of Xcode.
+**convertappicon** converts a pdf into multiple app icons. It is a macOS tool written in Swift and currently supports generating iOS icons (iPhone, iPad and watch). The easiest way is to execute it from a project target script phase inside of Xcode.
 
 **IMPORTANT**: Put the master pdf file into the project right alongside the destination AppIcon with an additional tailing 'Pdf' asset name (see sample). You do *not* need to bundle/copy the pdf to the target itself.
 
@@ -16,7 +16,7 @@ Feel free to ask questions, fork or create pull requests - [oliver.michalak@krea
 
 ## Synopsis
 
-`convertappicon [-c] [-h] [-t] [-s iphone ipad marketing] APPICONSETPATH`
+`convertappicon [-c] [-h] [-t] [-s iphone ipad watch marketing] APPICONSETPATH`
 
 APPICONSETPATH : The last parameter is the (partial) path to the destination .appiconset folder. It will traverse down and tries to find the first matching subfolder.
 
@@ -26,7 +26,7 @@ APPICONSETPATH : The last parameter is the (partial) path to the destination .ap
 
 -t : Test only, will print app icon path, master pdf path and all possible icons only.
 
--s : Select icon categories: 'iphone', 'ipad' or 'marketing' - if omitted all of them will be created.
+-s : Select icon categories: 'iphone', 'ipad', 'watch' or 'marketing' - if omitted all of them will be created.
 
 ## Sample
 
@@ -39,8 +39,8 @@ There is a sample project showing you how the tool is going to be integrated. It
 - drag the pdf into the newly created AppIconPdf panel (optional: set scale to `Single Scale`)
 - create a new (aggregation) target in the projects target list (see cross platform templates)
 - within that target, create a new run script build phase
-- enter the path to the `convertappicon` script and add the `${SRCROOT}` folder
+- enter the path to the `convertappicon` script and add the `"${SRCROOT}"` folder
 - select the build target and build it, to run the conversion
 - now the previously empty `AppIcon` asset contains all icons
 
-Providing `${SRCROOT}` in a target build script is usually enough but if you have multiple icons, you must provide the full folder path.
+Providing `"${SRCROOT}"` in a target build script is usually enough but if you have multiple icons, you must provide the full folder path.
