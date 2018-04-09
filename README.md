@@ -6,11 +6,11 @@
 
 ## Background
 
-Xcode supports (named) images from pdf assets for a long time, but sadly the app icon itself is an exeption: up to 18 png files have to be arranged manually inside of Xcode to provide a proper app icon.
+Xcode supports (named) images from pdf assets for a long time, but sadly the app icon itself is an exception: up to 18 png files have to be arranged manually inside of Xcode to provide a proper app icon.
 
 Due to an app offering multiple, pre-defined app icons to the user as an alternative as well, this can be a cumbersome task.
 
-For that reason, I've created this script during a hackathon as a proof of concept and then later moved from a pure bash/ImageMagick/scripting setup to a native Swift tool.
+For that reason, I've created this script during a hackathon as a proof of concept and then later moved from a bash/ImageMagick/scripting setup to a native Swift tool.
 
 Feel free to ask questions, fork or create pull requests - [oliver.michalak@kreait.com](oliver.michalak@kreait.com)
 
