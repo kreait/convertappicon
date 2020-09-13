@@ -60,7 +60,7 @@ if options.contains("-s") {
         configs.append(contentsOf: Configuration.list.filter { $0.idiom == .marketing } )
     }
     if options.contains("watch") {
-        configs.append(contentsOf: Configuration.list.filter { $0.idiom == .watch } )
+        configs.append(contentsOf: Configuration.list.filter { $0.idiom == .watch || $0.idiom == .watchMarketing } )
     }
     if configs.isEmpty {
         print("Warning: -s given but no category found.")

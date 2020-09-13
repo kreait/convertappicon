@@ -10,11 +10,11 @@ import Foundation
 
 
 enum Idiom: String, Encodable {
-    
     case phone = "iphone"
     case pad = "ipad"
     case marketing = "ios-marketing"
     case watch = "watch"
+    case watchMarketing = "watch-marketing"
 }
 
 enum Role: String, Encodable {
@@ -98,12 +98,18 @@ struct Configuration {
 
                        Config(size: 24, idiom: .watch, scale: 2, role: .notificationCenter, subtype: "38mm"),
                        Config(size: 27.5, idiom: .watch, scale: 2, role: .notificationCenter, subtype: "42mm"),
+
                        Config(size: 29, idiom: .watch, scale: 2, role: .companionSettings),
                        Config(size: 29, idiom: .watch, scale: 3, role: .companionSettings),
-                       Config(size: 40, idiom: .watch, scale: 2, role: .appLauncher, subtype: "38mm"),
-                       Config(size: 44, idiom: .watch, scale: 2, role: .longLook, subtype: "42mm"),
+
                        Config(size: 86, idiom: .watch, scale: 2, role: .quickLook, subtype: "38mm"),
                        Config(size: 98, idiom: .watch, scale: 2, role: .quickLook, subtype: "42mm"),
+                       Config(size: 108, idiom: .watch, scale: 2, role: .quickLook, subtype: "44mm"),
 
+                       Config(size: 40, idiom: .watch, scale: 2, role: .appLauncher, subtype: "38mm"),
+                       Config(size: 44, idiom: .watch, scale: 2, role: .appLauncher, subtype: "40mm"),
+                       Config(size: 50, idiom: .watch, scale: 2, role: .appLauncher, subtype: "44mm"),
+
+                       Config(size: 1024, idiom: .watchMarketing, scale: 1),
                        Config(size: 1024, idiom: .marketing, scale: 1)]
 }
